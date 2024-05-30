@@ -2,6 +2,7 @@ const GENERATE_TESTS_URL = '/generate_tests';
 const AMEND_TESTS_URL = '/amend_tests';
 const CLEAR_MESSAGES_URL = '/clear_messages';
 const DOWNLOAD_DOCX_URL = '/download_docx';
+const DOWNLOAD_EXCEL_URL = '/download_excel';
 var fetch_data_flag = false;
 var uploaded_file = null;
 
@@ -310,6 +311,42 @@ async function downloadDocx() {
 	});
 }
 
+// Update downloadExcel function to send the HTML content to the backend
+async function downloadExcel() {
+    const displayText = document.getElementById("displayText").innerHTML;
+
+    const data = await fetch(DOWNLOAD_EXCEL_URL, {
+        method: 'POST',
+        body: displayText,
+        headers: {
+            'Content-Type': 'text/html'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.blob();
+    })
+    .then(blob => {
+        // Create a temporary link element
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = 'test_cases.xlsx';
+        document.body.appendChild(a);
+
+        // Trigger the download
+        a.click();
+
+        // Clean up
+        window.URL.revokeObjectURL(url);
+    })
+    .catch(error => {
+        console.error('Error downloading file:', error);
+    });
+}
 function textAreaAdjust(element) {
 	element.style.height = "1px";
 	element.style.height = (25+element.scrollHeight)+"px";

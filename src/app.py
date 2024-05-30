@@ -3,6 +3,8 @@ from docx import Document
 from docx.shared import Inches
 from flask import send_from_directory
 import os
+import io
+import pandas as pd
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 load_dotenv()
@@ -16,7 +18,7 @@ client = Groq(
 
 # https://escola42.openai.azure.com/openai/deployments/london_is_best/completions?api-version=2024-02-15-preview
 
-CHAT_COMPLETIONS_MODEL = os.getenv('CHAT_COMPLETION_NAME')
+CHAT_COMPLETIONS_MODEL = 'llama3-70b-8192'
 SEED=123
 OUTPUT_FOLDER = './out'
 PROMPT_FOLDER = './prompts'
@@ -117,7 +119,7 @@ def generate_test_cases():
 
 	# Call the Azure OpenAI API to generate test cases
 	response = client.chat.completions.create(
-	model="llama3-8b-8192",
+	model="llama3-70b-8192",
 		messages = messages,
 		temperature=0.5,
 		max_tokens=4096,
@@ -168,7 +170,7 @@ def amend_test_cases():
 	messages.append({"role":"user","content": system_message + "'" + message + "'"})
 
 	response = client.chat.completions.create(
-		model="llama3-8b-8192",
+		model="llama3-70b-8192",
 		messages = messages,
 		temperature=0.5,
 		max_tokens=4096,
@@ -189,6 +191,74 @@ def amend_test_cases():
 		file.write(test_cases)
 
 	return test_cases
+
+@app.route('/download_excel', methods=['POST'])
+def download_excel():
+    # Get the HTML content from the request
+    html_content = request.data.decode('utf-8')
+
+    # Parse the HTML content using BeautifulSoup
+    soup = BeautifulSoup(html_content, 'html.parser')
+
+    # Initialize list to collect test case data
+    test_cases = []
+
+    # Extract the story name
+    story_name = soup.find('h2').text.replace("Test cases for user story ", "").replace(":", "")
+
+    # Loop through each test case
+    for test_case_section in soup.find_all('h3'):
+        test_case_name = test_case_section.text.split(":")[1].strip()
+        
+        # Find the next sibling tables
+        tables = test_case_section.find_all_next('table', limit=2)
+        
+        # Extract first table (test case details)
+        details_table = tables[0]
+        details_data = {}
+        for row in details_table.find_all('tr'):
+            cols = row.find_all(['th', 'td'])
+            if len(cols) == 2:
+                key = cols[0].text.strip()
+                value = cols[1].text.strip()
+                details_data[key] = value
+
+        # Extract second table (actions and expected results)
+        actions_table = tables[1]
+        actions = []
+        expected_results = []
+        for row in actions_table.find_all('tr')[1:]:  # Skip header row
+            cols = row.find_all('td')
+            if len(cols) == 2:
+                actions.append(cols[0].text.strip())
+                expected_results.append(cols[1].text.strip())
+
+        # Combine all data into a single dictionary
+        test_case_data = {
+            "Story Name": story_name,
+            "Test Case Name": test_case_name,
+            "Title": details_data.get('Title', ''),
+            "Description": details_data.get('Description', ''),
+            "Pre-Conditions": details_data.get('Pre-Conditions', ''),
+            "Requirements": details_data.get('Requirements', ''),
+            "Actions": "; ".join(actions),
+            "Expected Results": "; ".join(expected_results)
+        }
+
+        # Add the test case data to the list
+        test_cases.append(test_case_data)
+
+    # Create a DataFrame
+    df = pd.DataFrame(test_cases)
+
+    # Create a BytesIO object to hold the Excel file in memory
+    output = io.BytesIO()
+    writer = pd.ExcelWriter(output, engine='xlsxwriter')
+    df.to_excel(writer, index=False, sheet_name='TestCases')
+    writer.close()
+    output.seek(0)
+
+    return send_file(output, download_name='test_cases.xlsx', as_attachment=True)
 
 """
 Endpoint to download the test cases in .txt format
