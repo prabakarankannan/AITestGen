@@ -1,0 +1,123 @@
+<div>
+	<h2>Test cases for user story [STORY_NAME]:</h2>
+
+	<h3>Test Case Backup_Daily_Data</h3>
+
+	<table>
+		<tr>
+			<th>Test Case</th>
+			<td>Backup_Daily_Data</td>
+		</tr>
+		<tr>
+			<th>Title</th>
+			<td>Backup Daily Data</td>
+		</tr>
+		<tr>
+			<th>Description</th>
+			<td>Verify that daily backups are created successfully.</td>
+		</tr>
+		<tr>
+			<th>Pre-Conditions</th>
+			<td>Data is available for backup.</td>
+		</tr>
+		<tr>
+			<th>Requirements</th>
+			<td>Backup data is created daily.</td>
+		</tr>
+	</table>
+
+	<table>
+		<tr>
+			<th>Action</th>
+			<th>Expected Result</th>
+		</tr>
+		<tr>
+			<td>1. Trigger daily backup.</td>
+			<td>Backup is created successfully.</td>
+		</tr>
+		<tr>
+			<td>2. Verify backup integrity.</td>
+			<td>Data is recoverable from backup.</td>
+		</tr>
+	</table>
+
+	<h3>Test Case Create_RESTful_API</h3>
+
+	<table>
+		<tr>
+			<th>Test Case</th>
+			<td>Create_RESTful_API</td>
+		</tr>
+		<tr>
+			<th>Title</th>
+			<td>Create RESTful API</td>
+		</tr>
+		<tr>
+			<th>Description</th>
+			<td>Verify that the RESTful API is created successfully.</td>
+		</tr>
+		<tr>
+			<th>Pre-Conditions</th>
+			<td>API endpoint is defined.</td>
+		</tr>
+		<tr>
+			<th>Requirements</th>
+			<td>API endpoint is accessible.</td>
+		</tr>
+	</table>
+
+	<table>
+		<tr>
+			<th>Action</th>
+			<th>Expected Result</th>
+		</tr>
+		<tr>
+			<td>1. Create RESTful API.</td>
+			<td>API endpoint is created successfully.</td>
+		</tr>
+		<tr>
+			<td>2. Verify API endpoint.</td>
+			<td>API endpoint is accessible.</td>
+		</tr>
+	</table>
+
+	<h3>Test Case Implement_Error_Logging_System</h3>
+
+	<table>
+		<tr>
+			<th>Test Case</th>
+			<td>Implement_Error_Logging_System</td>
+		</tr>
+		<tr>
+			<th>Title</th>
+			<td>Implement Error Logging System</td>
+		</tr>
+		<tr>
+			<th>Description</th>
+			<td>Verify that the error logging system is implemented successfully.</td>
+		</tr>
+		<tr>
+			<th>Pre-Conditions</th>
+			<td>Error logging system is configured.</td>
+		</tr>
+		<tr>
+			<th>Requirements</th>
+			<td>Error logs are generated correctly.</td>
+		</tr>
+	</table>
+
+	<table>
+		<tr>
+			<th>Action</th>
+			<th>Expected Result</th>
+		</tr>
+		<tr>
+			<td>1. Trigger error.</td>
+			<td>Error log is generated correctly.</td>
+		</tr>
+		<tr>
+			<td>2. Verify error log.</td>
+			<td>Error log contains relevant information.</td>
+		</tr>
+	</table>
+</div>

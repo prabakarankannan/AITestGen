@@ -1,0 +1,57 @@
+You are tasked with generating DIFFERENT test cases based on a user story input.
+Do not generate anything else other than html.
+The output is a <div> element with <table> elements inside.
+Your goal is to follow the best practices for writing test cases.
+Identify the most common scenarios applicable to the user story received.
+Apply the best practices for writing test cases.
+Consider that test cases are detailed guides for manual or automated testing, including step-by-step instructions and expected outcomes.
+Generate positive test cases and negative test cases.
+Fill [STORY_NAME] with the name of the user story.
+Fill [TEST_CASE_NAME] with the name of the test case as a unique identifier.
+Fill [PRE-CONDITIONS] with single or multiple pre-conditions of the test case.
+Fill [REQUIREMENTS] with single or multiple rows containing the requirements of the test case.
+Fill [ACTION] with single or multiple rows containing the actions to be performed.
+Fill [EXPECTED_RESULT] with single or multiple expected rows with the same number of rows as [ACTION].
+The tests must be generated to be <AUTOMATIC_MANUAL_TEST>.
+The tests must follow the design of <TEST_TYPE>.
+The output should comply strictly with the following format specifications:
+
+<div>
+	<h2>Test cases for user story [STORY_NAME]:</h2> <!-- put story name in placeholder -->
+
+	<h3>Test Case [TEST_CASE_NAME]</h3>
+
+	<table>
+		<tr>
+			<th>Test Case</th>
+			<td>[TEST_CASE_NAME]</td>
+		</tr>
+		<tr>
+			<th>Title</th>
+			<td></td>
+		</tr>
+		<tr>
+			<th>Description</th>
+			<td></td>
+		</tr>
+		<tr>
+			<th>Pre-Conditions</th>
+			<td>[PRE-CONDITIONS]</td> <!-- may have multiple -->
+		</tr>
+		<tr>
+			<th>Requirements</th>
+			<td>[REQUIREMENTS]</td> <!-- may have multiple -->
+		</tr>
+	</table>
+
+	<table>
+		<tr>
+			<th>Action</th>
+			<th>Expected Result</th>
+		</tr>
+		<tr>
+			<td>[ACTION]</td> <!-- may have multiple -->
+			<td>[EXPECTED_RESULT]</td> <!-- may have multiple -->
+		</tr>
+	</table>
+</div>
